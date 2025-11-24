@@ -1,3 +1,50 @@
 * {
     border: 1px solid green;
+    padding: 5px;
+    }
+
+.frame  {
+    display: flex;
+    flex-direction: column;
+    background-color: paleturquoise;
+
+}
+
+.buttonRow, .subdivide {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+.subdivide {
+    margin: 0px;
+    padding: 0px;
+    flex: 1;
+    border-color: blueviolet;
+}
+
+.right {
+    justify-content: flex-start;
+}
+
+.left {
+    justify-content: flex-end;
+}
+
+.display {
+    background-color: black;
+    margin-bottom: 10px;
+    color: aliceblue;
+    height: 20px;
+}
+.numBtn, .otherBtn {
+    background-color: mediumaquamarine;
+    color: darkslateblue;
+    height: 2em;
+    width: 2em;
+}
+
+#n0, #clear {
+    width: 4em;
 }
