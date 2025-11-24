@@ -1,8 +1,6 @@
 * {
-    border: 1px solid green;
     padding: 1em;
     box-sizing: border-box;
-
     }
 
 .frame  {
@@ -38,6 +36,7 @@
 }
 
 .numBtn, .otherBtn {
+    border: 1px solid green;
     background-color: mediumaquamarine;
     color: darkslateblue;
     height: 3em;
