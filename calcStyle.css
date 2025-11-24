@@ -1,50 +1,51 @@
 * {
     border: 1px solid green;
-    padding: 5px;
+    padding: 1em;
+    box-sizing: border-box;
+
     }
 
 .frame  {
     display: flex;
     flex-direction: column;
     background-color: paleturquoise;
-
+    padding: 1em;
+    width: fit-content;
 }
-
-.buttonRow, .subdivide {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 0px;
-    padding-top: 0px;
-}
-
-.subdivide {
-    margin: 0px;
-    padding: 0px;
-    flex: 1;
-    border-color: blueviolet;
-}
-
-.right {
-    justify-content: flex-start;
-}
-
-.left {
-    justify-content: flex-end;
+.display.answer {
+        display: flex;
+        margin-bottom: 10px;
+        justify-content: flex-end;
+        padding: 0em;
 }
 
 .display {
     background-color: black;
-    margin-bottom: 10px;
     color: aliceblue;
-    height: 20px;
+    text-align: right;
 }
+
+#equation {
+    height: 1em;
+}
+
+#answer {
+    height: 3em;
+}
+
+.buttonRow {
+    padding: 0em;
+}
+
 .numBtn, .otherBtn {
     background-color: mediumaquamarine;
     color: darkslateblue;
-    height: 2em;
-    width: 2em;
+    height: 3em;
+    width: 3em;
+    margin: 0.2em;
+    padding: 0em;
 }
 
 #n0, #clear {
-    width: 4em;
+    width: 6.4em;
 }
