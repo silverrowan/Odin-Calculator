@@ -1,67 +1,103 @@
-let userNum1;
-let userNum2;
-let userOperator;
-let displayEquation;
-let displayAnswer;
+let numbers = [];
+let operator;
+let equation;
+let answer;
+let activeNumber;
+let displayNumber;
+
 
 const calculatorBodyDiv = document.querySelector('div.frame');
 const displayEquationDiv = calculatorBodyDiv.querySelector('div#equation');
 const displayAnswerDiv = calculatorBodyDiv.querySelector('div.vcenter');
 const buttons = calculatorBodyDiv.querySelectorAll('button');
 const displayAnswerContainer = document.querySelector('.display.answer')
-console.log(buttons);
+    displayAnswerContainer.appendChild(displayAnswerDiv);
+    calculatorBodyDiv.prepend(displayAnswerContainer);
+    calculatorBodyDiv.prepend(displayEquationDiv);
 
 buttons.forEach( (button) => {
     button.addEventListener( "click", (e) => directButtonValues(e) );
 });
 
 function directButtonValues(e) {
-    displayAnswer = e.target.textContent;
-    updateDisplay(equation, displayAnswer);
+    let userButton = e.target.textContent;
+    switch (userButton) {
+        case 'CLEAR':
+            clearAll()
+        case '.': break;
+        case 'BKSP': break;
+        case 'x':
+        case '+':
+        case '-':
+        case '/':
+            operator = userButton;
+        case '=':
+            if (activeNumber) {numbers.push(activeNumber)} ;
+            console.log(numbers);
+            activeNumber = '';
+            displayNumber = calcEquation();
+            updateDisplay();
+        break;
+        default :
+            if (activeNumber) { activeNumber += userButton } else { activeNumber = userButton};
+            displayNumber = activeNumber;
+            updateDisplay();
+    };
 };
 
-function updateDisplay(equation, answer) {
+function updateDisplay() {
     displayEquationDiv.textContent = equation;
-    displayAnswerDiv.textContent = answer;
-    displayAnswerContainer.appendChild(displayAnswerDiv);
-    calculatorBodyDiv.prepend(displayAnswerContainer);
-    calculatorBodyDiv.prepend(displayEquationDiv);
+    displayAnswerDiv.textContent = displayNumber;
 }
 
-function evaluateCalculation(userNum1, userNum2, userOperator, equation) {
-    switch (userOperator) {
-        case '+' :
-            displayAnswer = addNumbers(userNum1, userNum2);
-        break;
-        case '-' :
-            displayAnswer = subtractNumbers(userNum1, userNum2);
-        break;
-        case '*' :
-            displayAnswer = multiplyNumbers(userNum1, userNum2);
-        break;
-        case '/' :
-            displayAnswer = divideNumbers(userNum1, userNum2);
-        break;
+function calcEquation() {
+    if (numbers.length > 2) {
+        displayNumber = 'error';
+        return displayNumber;
+    } else if ( numbers.length < 2) {;} 
+    else {
+        switch (operator) {
+            case '+' :
+                answer = addNumbers();
+            break;
+            case '-' :
+                answer = subtractNumbers();
+            break;
+            case '*' :
+                answer = multiplyNumbers();
+            break;
+            case '/' :
+                answer = divideNumbers();
+            break;
+        }
+        numbers.shift()
+        operator = '';
     };
-    updateDisplay(equation, displayAnswer);
-    return displayAnswer;
+    return answer;
 };
 
-function addNumbers(num1, num2) {
-    return displayAnswer = num1 + num2;
+function addNumbers() {
+    return answer = +numbers[0] + +numbers[1];
 };
-function subtractNumbers(num1, num2) {
-    return displayAnswer = num1 - num2;
+function subtractNumbers() {
+    return answer = +numbers[0] - +numbers[1];
 };
-function multiplyNumbers(num1, num2) {
-    return displayAnswer = num1 * num2;
+function multiplyNumbers() {
+    return answer = +numbers[0] * +numbers[1];
 };
-function divideNumbers(num1, num2) {
-    if (num2 === 0) {
-        return displayAnswer = 'Impossible';
+function divideNumbers() {
+    if (+numbers[1] === 0) {
+        return answer = 'Impossible';
     } else {
-        return displayAnswer = num1 / num2;
+        return answer = +numbers[0] / +numbers[1];
     }
 };
 
-// console.log(evaluateCalculation (1,2,'+','1+2'));
+function ClearAll() {
+    numbers = [];
+    operator;
+    equation;
+    answer;
+    activeNumber;
+    displayNumber;
+}
