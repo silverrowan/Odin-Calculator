@@ -9,10 +9,9 @@ const displayEquationDiv = calculatorBodyDiv.querySelector('div#equation');
 const displayAnserDiv = calculatorBodyDiv.querySelector('div.vcenter');
 const buttons = calculatorBodyDiv.querySelectorAll('button')
 
-console.log(calculatorBodyDiv);
-console.log(displayEquationDiv);
-console.log(displayAnserDiv);
-console.log(calculatorBodyDiv);
+buttons.forEach( (button) => {
+    button.addEventListener( "click", () => console.log(`click ${button.textContent}`) );
+});
 
 function evaluateCalculation(userNum1, userNum2, userOperator) {
     switch (userOperator) {
