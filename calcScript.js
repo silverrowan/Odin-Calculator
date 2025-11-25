@@ -4,6 +4,16 @@ let userOperator;
 let displayEquation;
 let displayAnswer;
 
+const calculatorBodyDiv = document.querySelector('div.frame');
+const displayEquationDiv = calculatorBodyDiv.querySelector('div#equation');
+const displayAnserDiv = calculatorBodyDiv.querySelector('div.vcenter');
+const buttons = calculatorBodyDiv.querySelectorAll('button')
+
+console.log(calculatorBodyDiv);
+console.log(displayEquationDiv);
+console.log(displayAnserDiv);
+console.log(calculatorBodyDiv);
+
 function evaluateCalculation(userNum1, userNum2, userOperator) {
     switch (userOperator) {
         case '+' :
@@ -33,5 +43,3 @@ function divideNumbers(num1, num2) {
         return num1 / num2;
     }
 };
-
-console.log(evaluateCalculation(4,2,'/') )
