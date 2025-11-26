@@ -4,7 +4,12 @@ let equation;
 let answer;
 let activeNumber;
 let displayNumber;
+let lastOperation;
+let lastKeyPress;
 
+            console.log(numbers+' '+operator+' => '+equation);
+            console.log(`ans:${answer}, actv:${activeNumber}, disp:${displayNumber}`);
+            console.log(' lastOpp:'+lastOperation+' lastPress:'+lastKeyPress);
 
 const calculatorBodyDiv = document.querySelector('div.frame');
 const displayEquationDiv = calculatorBodyDiv.querySelector('div#equation');
@@ -20,10 +25,13 @@ buttons.forEach( (button) => {
 });
 
 function directButtonValues(e) {
+        console.log(numbers+' '+operator+' => '+equation);
+        console.log(`ans:${answer}, actv:${activeNumber}, disp:${displayNumber}`);
+        console.log(' lastOpp:'+lastOpp+' lastPress:'+lastPress);
     let userButton = e.target.textContent;
     switch (userButton) {
         case 'CLEAR':
-            clearAll()
+            clearAll();
         case '.': break;
         case 'BKSP': break;
         case 'x':
@@ -32,13 +40,18 @@ function directButtonValues(e) {
         case '/':
             operator = userButton;
         case '=':
+            lastOperation = userButton;
+            lastKeyPress = userButton;
             if (activeNumber) {numbers.push(activeNumber)} ;
-            console.log(numbers);
+            console.log(numbers+' '+operator+' => '+equation);
+            console.log(`ans:${answer}, actv:${activeNumber}, disp:${displayNumber}`);
+            console.log(' lastOpp:'+lastOpp+' lastPress:'+lastPress);
             activeNumber = '';
             displayNumber = calcEquation();
             updateDisplay();
         break;
         default :
+            lastPress = userButton;
             if (activeNumber) { activeNumber += userButton } else { activeNumber = userButton};
             displayNumber = activeNumber;
             updateDisplay();
@@ -93,11 +106,13 @@ function divideNumbers() {
     }
 };
 
-function ClearAll() {
+function clearAll() {
     numbers = [];
     operator;
     equation;
     answer;
     activeNumber;
     displayNumber;
+    lastOperation;
+    lastKeyPress;
 }
