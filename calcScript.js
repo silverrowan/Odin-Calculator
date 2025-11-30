@@ -133,7 +133,7 @@ function checkDisplay(btn, wasEmpty, source) {
             case 'empty' : 
                 {numbers.push(0)};
                 checkNumCount();
-                getAnswerDisplayed();
+                // getAnswerDisplayed(); already called
                 break;
             case 'answer' :
                 numbers = [answer];
@@ -161,7 +161,7 @@ function checkDisplay(btn, wasEmpty, source) {
 function checkForOperatorEquals(button) {
     logCurrentStateOfVars ('beforeChecking if has operator (= pressed)')
     if (!operator) { 
-        if (userEntry) { answer = userEntry } else { answer = 0 };
+        if (userEntry) { answer = userEntry } else if (!answer) { answer = 0 }; 
         numbers = []; //this might be the problem? seem to clear it before its actually used. 
         equation = '';
         userEntry = '';
@@ -190,7 +190,7 @@ function checkReady() {
 function getAnswerDisplayed() {
             answer = calcEquation();
             changeDisplayTo('answer', answer); //double check these
-            answer = ''
+            // answer = ''
             equation = ''
             operator = ''   //double check thse
             userEntry = ''
