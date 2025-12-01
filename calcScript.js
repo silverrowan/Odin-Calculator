@@ -3,6 +3,7 @@ let operator = '';
 let equation = '';
 let answer = '';
 let userEntry = '';
+let operatorIsEqualsAndNextOp = '';
 
 // ~~~~~~~~~~Direct DOM Effects~~~~~~~~~~
 const calculatorBodyDiv = document.querySelector('div.frame');
@@ -22,7 +23,7 @@ function changeDisplayTo(idName='empty',value='') {
 }
 
 function updateEquationDisplay() {
-    updateEquation ();
+    // updateEquation ();
     displayEquationDiv.textContent = equation;
 };
 
@@ -55,12 +56,17 @@ function directButtonValues(e) {
         case '-':
         case '/':
 
-            recordNumber();
+            recordNumber('operator');
+            if (operatorIsEqualsAndNextOp === true) {
+            routeOperatorEquals(userButton);
+            //???
+            } else {
             routeOperatorByStage(userButton);
+            }
             // changeDisplayTo(); //works w initial op, or after =
         break;
         case '=':
-            recordNumber();
+            recordNumber('equals');
             checkForOperatorEquals(userButton)
         break;
         default : //any number button pressed
@@ -69,12 +75,15 @@ function directButtonValues(e) {
 };
 
 //~~~~~~~~~~Number Buttons~~~~~~~~~~
-function recordNumber() {
+function recordNumber(source) {
     switch (displayAnswerDiv.id) {
         case 'empty' :
             numbers.push(0);
         break;
         case 'userEntry' : 
+            if (operator && source === 'operator') { 
+                operatorIsEqualsAndNextOp = true;
+            };
             numbers.push(userEntry);
         break;
         case 'answer' :
@@ -119,10 +128,22 @@ function checkCurrentDisplay() {
 function routeOperatorByStage(button) {
     operator = button;
     calcEquation();
-    changeDisplayTo('answer', answer);
+    updateEquation();
+    changeDisplayTo('answer', calcEquation.answer);
+    if ( calcEquation.calcSuccess === true ) {operator = '';}; //clear if 
     logCurrentStateOfVars ('Show Math Result')
 }
 
+function routeOperatorEquals(button) {
+    calcEquation();
+    updateEquation();
+    equation += ` = ${answer} ${operator}`;
+    numbers = [answer];
+    operatorIsEqualsAndNextOp = '';
+    changeDisplayTo('answer', calcEquation.answer);
+    operator = button;
+    logCurrentStateOfVars ('Show Math Result')
+}
 
 function checkDisplay(btn, wasEmpty, source) {
     let dispID = checkCurrentDisplay()
@@ -182,7 +203,6 @@ function checkDisplay(btn, wasEmpty, source) {
 
 //~~~~~~~~~~Operator Button '='~~~~~~~~~~
 function checkForOperatorEquals(button) {
-
     if (!operator) { 
         if (userEntry) { answer = userEntry } else if (!answer) { answer = 0 }; 
         // numbers = []; //this might be the problem? seem to clear it before its actually used. 
@@ -212,7 +232,10 @@ function checkReady() {
 
 function calcEquation() {
     if ( checkReady() === 'false' ) { 
-        return answer = displayAnswerDiv.textContent;
+        let calcReply = {
+            calcSuccess : false,
+            answer : displayAnswerDiv.textContent, };
+        return calcReply;
     } else {
         switch (operator) {
             case '+' :
@@ -229,8 +252,10 @@ function calcEquation() {
             break;
             }
     };
-    operator = ''
-    return answer;
+    let calcReply = {
+        calcSuccess : true,
+        answer : answer, };
+    return calcReply;
 };
 
 function addNumbers() {
@@ -257,6 +282,7 @@ function clearAll() {
     answer = '';
     userEntry = '';
     equation = '';
+    operatorIsEqualsAndNextOp = '';
     changeDisplayTo(); //also updates eqn, which will pull newly empty values...except its not. Look into why?
     logCurrentStateOfVars ('clearAll')
 }
