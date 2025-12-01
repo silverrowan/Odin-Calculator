@@ -54,7 +54,7 @@ function directButtonValues(e) {
         case '+':
         case '-':
         case '/':
-            // checkForOperator(userButton);
+
             recordNumber();
             routeOperatorByStage(userButton);
             // changeDisplayTo(); //works w initial op, or after =
@@ -125,28 +125,22 @@ function routeOperatorByStage(button) {
 
 
 function checkDisplay(btn, wasEmpty, source) {
-    let dispID = displayAnswerDiv.id
+    let dispID = checkCurrentDisplay()
     logCurrentStateOfVars ('PRE- check display, update number')
     if (source === 'operator') {
         switch (dispID) { //WHEN NO OPERATOR (and operation pushed)
             case 'empty' : 
-                if (!wasEmpty) {numbers.push(0)};
-                checkNumCount();
                 operator = btn;
                 wasEmpty = '';
                 changeDisplayTo()
             break;
             case 'answer' :
-                numbers = [answer];
-                // numbers = [displayAnswerDiv.textContent]
                 answer = '';
                 operator = btn;
                 wasEmpty = ''
                 changeDisplayTo()
             break;
             case 'userEntry' :
-                numbers.push(userEntry);
-                checkNumCount();
                 userEntry = '';
                 if (!wasEmpty) { 
                     calcEquation();
@@ -163,20 +157,14 @@ function checkDisplay(btn, wasEmpty, source) {
     } else if (source === 'equals') {
         switch (dispID) { //WHEN NO OPERATOR (and operation pushed)
             case 'empty' : 
-                {numbers.push(0)};
-                checkNumCount();
-                // getAnswerDisplayed(); already called
                 break;
             case 'answer' :
-                numbers = [answer];
                 changeDisplayTo('answer', answer);
                 equation = '';
                 answer = '';
                 operator = '';
             break;
             case 'userEntry' :
-                numbers.push(userEntry);
-                checkNumCount()
                 userEntry = '';
                     if (numbers.length === 1) { answer = numbers[0] };
                     if (numbers.length === 2) {
@@ -194,10 +182,10 @@ function checkDisplay(btn, wasEmpty, source) {
 
 //~~~~~~~~~~Operator Button '='~~~~~~~~~~
 function checkForOperatorEquals(button) {
-    logCurrentStateOfVars ('beforeChecking if has operator (= pressed)')
+
     if (!operator) { 
         if (userEntry) { answer = userEntry } else if (!answer) { answer = 0 }; 
-        numbers = []; //this might be the problem? seem to clear it before its actually used. 
+        // numbers = []; //this might be the problem? seem to clear it before its actually used. 
         equation = '';
         userEntry = '';
     } else {
@@ -222,20 +210,6 @@ function checkReady() {
     return ready;
 }
 
-//WRITE THIS OUT -> check moved into calc, 
-// any variable editing can be done closer to action
-// function getAnswerDisplayed() {
-
-//             answer = calcEquation();
-//             changeDisplayTo('answer', answer); 
-//             //double check these
-//             // answer = ''
-//             // equation = ''
-//             // operator = ''   //double check thse
-//             // userEntry = ''
-//             logCurrentStateOfVars ('Show Math Result')
-// }
-
 function calcEquation() {
     if ( checkReady() === 'false' ) { 
         return answer = displayAnswerDiv.textContent;
@@ -255,6 +229,7 @@ function calcEquation() {
             break;
             }
     };
+    operator = ''
     return answer;
 };
 
