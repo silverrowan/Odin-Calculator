@@ -54,9 +54,13 @@ function directButtonValues(e) {
         case '+':
         case '-':
         case '/':
-            checkForOperator(userButton);
+            // checkForOperator(userButton);
+            recordNumber();
+            routeOperatorByStage(userButton);
+            // changeDisplayTo(); //works w initial op, or after =
         break;
         case '=':
+            recordNumber();
             checkForOperatorEquals(userButton)
         break;
         default : //any number button pressed
@@ -65,6 +69,20 @@ function directButtonValues(e) {
 };
 
 //~~~~~~~~~~Number Buttons~~~~~~~~~~
+function recordNumber() {
+    switch (displayAnswerDiv.id) {
+        case 'empty' :
+            numbers.push(0);
+        break;
+        case 'userEntry' : 
+            numbers.push(userEntry);
+        break;
+        case 'answer' :
+            numbers = [answer];
+        };
+    checkNumCount();
+}
+
 function displayNumberPress(button) {
     switch (displayAnswerDiv.id) {
         case 'empty' : 
@@ -93,6 +111,19 @@ function checkForOperator(button) {
 };
 
 //~~~~~~~~~~Check Display Contents, Update Number - NO PREV OPERATOR VER, opp pushed~~~~~~~~~~
+function checkCurrentDisplay() {
+    let dispID = displayAnswerDiv.id;
+    return dispID;
+};
+
+function routeOperatorByStage(button) {
+    operator = button;
+    calcEquation();
+    changeDisplayTo('answer', answer);
+    logCurrentStateOfVars ('Show Math Result')
+}
+
+
 function checkDisplay(btn, wasEmpty, source) {
     let dispID = displayAnswerDiv.id
     logCurrentStateOfVars ('PRE- check display, update number')
@@ -118,7 +149,8 @@ function checkDisplay(btn, wasEmpty, source) {
                 checkNumCount();
                 userEntry = '';
                 if (!wasEmpty) { 
-                    getAnswerDisplayed() 
+                    calcEquation();
+                    changeDisplayTo('answer', answer) //parameters answer?
                 } else {
                     changeDisplayTo( ); //changed to part of prev if statement. Check works this way--prev--if we just calc'd the answer DONT WANT TO CLEAR
                 }; 
@@ -147,7 +179,10 @@ function checkDisplay(btn, wasEmpty, source) {
                 checkNumCount()
                 userEntry = '';
                     if (numbers.length === 1) { answer = numbers[0] };
-                    if (numbers.length === 2) {getAnswerDisplayed()};
+                    if (numbers.length === 2) {
+                        calcEquation();
+                        changeDisplayTo('answer', answer) //parameters answer?
+                    };
             break;
             default : 
                 console.log('ERROR - problem in checkDisplay(equals source), Div ID invalid');
@@ -187,19 +222,23 @@ function checkReady() {
     return ready;
 }
 
-function getAnswerDisplayed() {
-            answer = calcEquation();
-            changeDisplayTo('answer', answer); //double check these
-            // answer = ''
-            equation = ''
-            operator = ''   //double check thse
-            userEntry = ''
-            logCurrentStateOfVars ('Show Math Result')
-}
+//WRITE THIS OUT -> check moved into calc, 
+// any variable editing can be done closer to action
+// function getAnswerDisplayed() {
+
+//             answer = calcEquation();
+//             changeDisplayTo('answer', answer); 
+//             //double check these
+//             // answer = ''
+//             // equation = ''
+//             // operator = ''   //double check thse
+//             // userEntry = ''
+//             logCurrentStateOfVars ('Show Math Result')
+// }
 
 function calcEquation() {
-if ( checkReady() === 'false' ) {  //we've already included checkReady before calling this one (at least in one path) remove that one.
-    return answer = displayAnswerDiv.textContent;
+    if ( checkReady() === 'false' ) { 
+        return answer = displayAnswerDiv.textContent;
     } else {
         switch (operator) {
             case '+' :
