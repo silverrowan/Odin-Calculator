@@ -241,7 +241,7 @@ function calcEquation() {
             case '-' :
                 answer = subtractNumbers();
             break;
-            case '*' :
+            case 'x' :
                 answer = multiplyNumbers();
             break;
             case '/' :
