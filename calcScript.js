@@ -19,23 +19,22 @@ function changeDisplayTo(idName='empty',value='') {
     //idName values should be one of: empty, answer, userEntry
     displayAnswerDiv.id = idName;
     displayAnswerDiv.textContent = value;
-    updateEquationDisplay();
-}
-
-function updateEquationDisplay() {
-    // updateEquation ();
     displayEquationDiv.textContent = equation;
 };
 
-function updateEquation () {
+function updateEquation (button = '') {
         logCurrentStateOfVars ('PRE-updateEquasion')
     if (operator) {
         if (numbers[0]) { equasionNum1 = numbers[0] } else { equasionNum1 = 0 };
         if (numbers[1]) { equasionNum2 = numbers[1] } else { equasionNum2 = '' };
         equation = equasionNum1 + ' ' + operator + ' ' + equasionNum2;
         return equation; 
-    } else { return '' ; }
-}
+    } else if (button === '=') {
+        if (numbers[0]) { equasionNum1 = numbers[0] } else { equasionNum1 = 0 };
+        equation = equasionNum1 + ' =';
+        return equation; 
+    } else { return '' ; };
+};
 
 //~~~~~~~~~~Listener & Directing~~~~~~~~~~
 //NOT YET RE-ASSESSED
@@ -55,19 +54,16 @@ function directButtonValues(e) {
         case '+':
         case '-':
         case '/':
-
             recordNumber('operator');
             if (operatorIsEqualsAndNextOp === true) {
-            routeOperatorEquals(userButton);
-            //???
+                routeOperatorEquals(userButton);
             } else {
-            routeOperatorByStage(userButton);
-            }
-            // changeDisplayTo(); //works w initial op, or after =
+                routeOperatorByStage(userButton);
+            };
         break;
         case '=':
             recordNumber('equals');
-            checkForOperatorEquals(userButton)
+            routeEquals(userButton);
         break;
         default : //any number button pressed
             displayNumberPress(userButton)
@@ -90,7 +86,7 @@ function recordNumber(source) {
             numbers = [answer];
         };
     checkNumCount();
-}
+};
 
 function displayNumberPress(button) {
     switch (displayAnswerDiv.id) {
@@ -109,28 +105,12 @@ function displayNumberPress(button) {
 };
 
 //~~~~~~~~~~Operation Buttons + - / x~~~~~~~~~~
-function checkForOperator(button) {
-    let wasEmpty;
-    if (!operator) { 
-        operator = button; 
-        wasEmpty = true;
-    }; 
-    checkDisplay(button, wasEmpty, 'operator');    
-        logCurrentStateOfVars ('CheckDisplay Result')
-};
-
-//~~~~~~~~~~Check Display Contents, Update Number - NO PREV OPERATOR VER, opp pushed~~~~~~~~~~
-function checkCurrentDisplay() {
-    let dispID = displayAnswerDiv.id;
-    return dispID;
-};
-
 function routeOperatorByStage(button) {
     operator = button;
     calcEquation();
     updateEquation();
     changeDisplayTo('answer', calcEquation.answer);
-    if ( calcEquation.calcSuccess === true ) {operator = '';}; //clear if 
+    if ( calcEquation.calcSuccess === true ) {operator = '';};
     logCurrentStateOfVars ('Show Math Result')
 }
 
@@ -144,6 +124,12 @@ function routeOperatorEquals(button) {
     operator = button;
     logCurrentStateOfVars ('Show Math Result')
 }
+
+//~~~~~~~~~~Check Display Contents~~~~~~~~~~
+function checkCurrentDisplay() {
+    let dispID = displayAnswerDiv.id;
+    return dispID;
+};
 
 function checkDisplay(btn, wasEmpty, source) {
     let dispID = checkCurrentDisplay()
@@ -202,17 +188,26 @@ function checkDisplay(btn, wasEmpty, source) {
 };
 
 //~~~~~~~~~~Operator Button '='~~~~~~~~~~
-function checkForOperatorEquals(button) {
-    if (!operator) { 
-        if (userEntry) { answer = userEntry } else if (!answer) { answer = 0 }; 
-        // numbers = []; //this might be the problem? seem to clear it before its actually used. 
-        equation = '';
+function routeEquals(button) {
+    if (!operator) {
+        if (userEntry) { answer = userEntry } else if (!answer) { answer = 0 };
+        updateEquation(button);
+        changeDisplayTo('answer', answer)
         userEntry = '';
     } else {
-        checkDisplay(button, '', 'equals');
-    };
-    logCurrentStateOfVars ('after checking if has operator (= pressed)')
-};
+        if (numbers.length === 1) { 
+            answer = numbers[0]; 
+            updateEquation(button);
+            operator = '';
+        };
+        if (numbers.length === 2) {
+            calcEquation();
+            updateEquation();
+            operator = '';
+            changeDisplayTo('answer', answer); //parameters answer?
+        };
+    }
+}
 
 //~~~~~~~~~~Number Check~~~~~~~~~~
 function checkNumCount() {
