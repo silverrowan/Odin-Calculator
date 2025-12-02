@@ -192,6 +192,7 @@ function checkDisplay(btn, wasEmpty, source) {
 function routeEquals(button) {
     if (!operator) {
         if (userEntry) { answer = userEntry } else if (!answer) { answer = 0 };
+        numbers = [answer];
         updateEquation(button);
         changeDisplayTo('answer', answer)
         userEntry = '';
