@@ -4,6 +4,7 @@ let equation = '';
 let answer = '';
 let userEntry = '';
 let operatorIsEqualsAndNextOp = '';
+let lastButton = '';
 
 // ~~~~~~~~~~Direct DOM Effects~~~~~~~~~~
 const calculatorBodyDiv = document.querySelector('div.frame');
@@ -54,19 +55,26 @@ function directButtonValues(e) {
         case '+':
         case '-':
         case '/':
+            if (lastButton === 'operator') {
+                routeOperatorChange(userButton);
+                break;
+            };
             recordNumber('operator');
             if (operatorIsEqualsAndNextOp === true) {
                 routeOperatorEquals(userButton);
             } else {
                 routeOperatorByStage(userButton);
             };
+        lastButton = 'operator';
         break;
         case '=':
             recordNumber('equals');
             routeEquals(userButton);
+            lastButton = '=';
         break;
         default : //any number button pressed
-            displayNumberPress(userButton)
+            displayNumberPress(userButton);
+            lastButton = 'number';
     };
 };
 
@@ -109,10 +117,15 @@ function routeOperatorByStage(button) {
     operator = button;
     calcEquation();
     updateEquation();
-    changeDisplayTo('answer', calcEquation.answer);
-    if ( calcEquation.calcSuccess === true ) {operator = '';};
+    if ( calcEquation.calcSuccess === true ) {
+        changeDisplayTo('answer', calcEquation.answer);
+        operator = '';
+    } else {
+        changeDisplayTo('empty', calcEquation.answer);
+        userEntry = '';
+    };
     logCurrentStateOfVars ('Show Math Result')
-}
+};
 
 function routeOperatorEquals(button) {
     calcEquation();
@@ -122,9 +135,14 @@ function routeOperatorEquals(button) {
     numbers = [answer];
     operatorIsEqualsAndNextOp = '';
     changeDisplayTo('answer', calcEquation.answer);
-
     logCurrentStateOfVars ('Show Math Result')
-}
+};
+
+function routeOperatorChange (button) {
+    operator = button;
+    updateEquation();
+    changeDisplayTo();
+};
 
 //~~~~~~~~~~Check Display Contents~~~~~~~~~~
 function checkCurrentDisplay() {
@@ -281,6 +299,7 @@ function clearAll() {
     equation = '';
     operatorIsEqualsAndNextOp = '';
     changeDisplayTo(); //also updates eqn, which will pull newly empty values...except its not. Look into why?
+    lastButton = '';
     logCurrentStateOfVars ('clearAll')
 }
 
@@ -289,5 +308,6 @@ function logCurrentStateOfVars (header) {
                 console.group( header );
                 console.log(`nums: `+ numbers+' operator: '+operator+' equation:'+equation);
                 console.log(`ans:${answer}, userEntry: ${userEntry} dispID:${displayAnswerDiv.id}`);
+                console.log(`lastButton: ${lastButton} activeDisplay: ${displayAnswerDiv.id}`);
                 console.groupEnd();
 }
