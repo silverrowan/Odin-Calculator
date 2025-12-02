@@ -80,20 +80,27 @@ function directButtonValues(e) {
 
 //~~~~~~~~~~Number Buttons~~~~~~~~~~
 function recordNumber(source) {
-    switch (displayAnswerDiv.id) {
-        case 'empty' :
-            numbers.push(0);
-        break;
-        case 'userEntry' : 
-            if (operator && source === 'operator') { 
-                operatorIsEqualsAndNextOp = true;
+    if ( displayAnswerDiv.textContent === 'Impossible') {
+        numbers = [];
+    } else {
+        switch (displayAnswerDiv.id) {
+            case 'Impossible' : 
+
+            break;
+            case 'empty' :
+                numbers.push(0);
+            break;
+            case 'userEntry' : 
+                if (operator && source === 'operator') { 
+                    operatorIsEqualsAndNextOp = true;
+                };
+                numbers.push(userEntry);
+            break;
+            case 'answer' :
+                numbers = [answer];
             };
-            numbers.push(userEntry);
-        break;
-        case 'answer' :
-            numbers = [answer];
-        };
-    checkNumCount();
+        checkNumCount();
+    };
 };
 
 function displayNumberPress(button) {
@@ -150,62 +157,6 @@ function checkCurrentDisplay() {
     return dispID;
 };
 
-function checkDisplay(btn, wasEmpty, source) {
-    let dispID = checkCurrentDisplay()
-    logCurrentStateOfVars ('PRE- check display, update number')
-    if (source === 'operator') {
-        switch (dispID) { //WHEN NO OPERATOR (and operation pushed)
-            case 'empty' : 
-                operator = btn;
-                wasEmpty = '';
-                changeDisplayTo()
-            break;
-            case 'answer' :
-                answer = '';
-                operator = btn;
-                wasEmpty = ''
-                changeDisplayTo()
-            break;
-            case 'userEntry' :
-                userEntry = '';
-                if (!wasEmpty) { 
-                    calcEquation();
-                    changeDisplayTo('answer', answer) //parameters answer?
-                } else {
-                    changeDisplayTo( ); //changed to part of prev if statement. Check works this way--prev--if we just calc'd the answer DONT WANT TO CLEAR
-                }; 
-                wasEmpty = ''
-            break;
-            default : 
-                console.log('ERROR - problem in checkDisplay(operator source), Div ID invalid');
-        };
-        return dispID;
-    } else if (source === 'equals') {
-        switch (dispID) { //WHEN NO OPERATOR (and operation pushed)
-            case 'empty' : 
-                break;
-            case 'answer' :
-                changeDisplayTo('answer', answer);
-                equation = '';
-                answer = '';
-                operator = '';
-            break;
-            case 'userEntry' :
-                userEntry = '';
-                    if (numbers.length === 1) { answer = numbers[0] };
-                    if (numbers.length === 2) {
-                        calcEquation();
-                        changeDisplayTo('answer', answer) //parameters answer?
-                    };
-            break;
-            default : 
-                console.log('ERROR - problem in checkDisplay(equals source), Div ID invalid');
-        };
-        return dispID
-    };
-    logCurrentStateOfVars ('POST- check display, update number')
-};
-
 //~~~~~~~~~~Operator Button '='~~~~~~~~~~
 function routeEquals(button) {
     if (!operator) {
@@ -222,7 +173,6 @@ function routeEquals(button) {
         };
         if (numbers.length === 2) {
             calcEquation();
-            updateEquation();
             operator = '';
             changeDisplayTo('answer', answer); //parameters answer?
         };
@@ -246,6 +196,7 @@ function checkReady() {
 }
 
 function calcEquation() {
+    updateEquation();
     if ( checkReady() === 'false' ) { 
         let calcReply = {
             calcSuccess : false,
@@ -266,6 +217,8 @@ function calcEquation() {
                 answer = divideNumbers();
             break;
             }
+        operator = '';
+        numbers = [];
     };
     let calcReply = {
         calcSuccess : true,
