@@ -117,11 +117,12 @@ function routeOperatorByStage(button) {
 function routeOperatorEquals(button) {
     calcEquation();
     updateEquation();
+    operator = button;
     equation += ` = ${answer} ${operator}`;
     numbers = [answer];
     operatorIsEqualsAndNextOp = '';
     changeDisplayTo('answer', calcEquation.answer);
-    operator = button;
+
     logCurrentStateOfVars ('Show Math Result')
 }
 
