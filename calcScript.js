@@ -16,12 +16,13 @@ const displayAnswerContainer = document.querySelector('.display.answer')
     displayAnswerContainer.appendChild(displayAnswerDiv);
     calculatorBodyDiv.prepend(displayAnswerContainer);
     calculatorBodyDiv.prepend(displayEquationDiv);
+const decimalBtn = calculatorBodyDiv.querySelector('button#nDot');
+const bkspBtn = calculatorBodyDiv.querySelector('button#bksp')
 
 function changeDisplayTo(idName='empty',value='') {
     //idName values should be one of: empty, answer, userEntry
-
-    //if idName = 'empty' then deactivateBksp()
-    //if displayAnswerDiv.id = 'empty' && idName !== 'empty' then activateBksp()
+    if ( idName = 'empty' ) { deactivateBksp() };
+    if ( displayAnswerDiv.id = 'empty' && idName !== 'empty' ) { activateBksp() };
     displayAnswerDiv.id = idName;
     if (idName === 'userEntry' || idName === 'empty' || value === '' || value === 'Impossible' ) {
         displayAnswerDiv.textContent = value;
@@ -73,8 +74,9 @@ buttons.forEach( (button) => {
 
 function deactivateDecimal () {
 // when '. button' pressed: 
-        //deactivate listener on '. button' (temporarily)
-        //decimalListenerActive = false;
+
+        //decimalActive = false;
+            //have if statement that ignores press if this is false
         //set class of .button to include disabled 
 };
 
@@ -86,13 +88,12 @@ function activateDecimal () {
 
 function deactivateBksp () {
         // set BKSP class to disabled,
-        // disable listener on BKSP
-        // set bkspListenerActive = flase 
+        // set bkspActive = flase
+            //have if statement that ignores press if this is false
 };
 
 function activateBksp () {
-        // reactivate listener on BKSP
-        // set bkspListenerActive = true
+        // set bkspActive = true
         // remove BKSP class disabled
 };
 
