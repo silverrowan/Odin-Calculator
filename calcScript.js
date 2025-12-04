@@ -23,7 +23,7 @@ const bkspBtn = calculatorBodyDiv.querySelector('button#bksp')
 
 function changeDisplayTo(idName='empty',value='') {
     //idName values should be one of: empty, answer, userEntry
-    if ( idName = 'empty' ) { deactivateBksp() };
+    if ( idName === 'empty' ) { deactivateBksp() };
     if ( displayAnswerDiv.id = 'empty' && idName !== 'empty' ) { activateBksp() };
     displayAnswerDiv.id = idName;
     if (idName === 'userEntry' || idName === 'empty' || value === '' || value === 'Impossible' ) {
@@ -110,7 +110,7 @@ function directButtonValues(e) {
             clearAll();
         break;
         case 'BKSP': 
-            routeBksp(userButton);
+            if (bkspActive = true) {routeBksp(userButton);}
         break;
         case 'x':
         case '+':
@@ -134,6 +134,7 @@ function directButtonValues(e) {
             lastButton = '=';
         break;
         case '.': 
+            if ( decimalActive = false) {break;}
             deactivateDecimal();
         default : //any number button pressed
             displayNumberPress(userButton);
@@ -182,7 +183,7 @@ function displayNumberPress(button) {
         default : 
             userEntry = 'ERROR: displayID invalid'; 
     };
-    changeDisplayTo('userEntry', userEntry);    
+    changeDisplayTo(`userEntry`, userEntry);    
     logCurrentStateOfVars('displayNumberPressFinish')
 };
 
