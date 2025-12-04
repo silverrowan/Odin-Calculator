@@ -34,10 +34,6 @@
     color: lightgray;
 }
 
-#answer {
-
-}
-
 .buttonRow {
     padding: 0em;
 }
@@ -54,4 +50,10 @@
 
 #n0, #clear {
     width: 6.4em;
+}
+
+.disabled {
+    border: 0px solid rgb(104, 109, 104, 0.5);
+    background-color: rgba(166, 177, 172, 0.5);
+    color: rgba(74, 72, 80, 0.5);
 }
