@@ -38,6 +38,12 @@ function updateEquation (button = '') {
         if (numbers[0]) { equasionNum1 = roundNumbers( numbers[0], 2) } else { equasionNum1 = 0 };
         equation = equasionNum1 + ' =';
         return equation; 
+    } else if (button === 'BKSP') {
+        if (numbers.length >= 1 ) { 
+            equasionNum1 = roundNumbers( numbers[0], 2);
+            equation = equasionNum1 + ' __';
+            return equation; 
+        } else { return '' };
     } else { return '' ; };
 };
 
@@ -59,8 +65,11 @@ function directButtonValues(e) {
     switch (userButton) {
         case 'CLEAR':
             clearAll();
+        break;
         case '.': break;
-        case 'BKSP': break;
+        case 'BKSP': 
+            routeBksp(userButton);
+        break;
         case 'x':
         case '+':
         case '-':
@@ -192,6 +201,22 @@ function checkNumCount() {
         numbers.shift();
     };
     logCurrentStateOfVars ("remove old numbers")
+};
+
+//~~~~~~~~~~Backspace~~~~~~~~~~
+function routeBksp(button) {
+    if ( displayAnswerDiv.id === 'userEntry' ) {
+        userEntry = displayAnswerDiv.textContent.slice(0,-1);
+        changeDisplayTo('userEntry', userEntry);
+        return;
+    } else if ( lastButton = 'operator' ) {
+        operator = '';
+        updateEquation(button);
+        changeDisplayTo();
+    } else {
+        changeDisplayTo();
+        answer = '';
+    };
 };
 
 //~~~~~~~~~~MATH~~~~~~~~~~
