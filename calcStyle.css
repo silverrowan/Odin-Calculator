@@ -23,12 +23,19 @@
     text-align: right;
 }
 
+.display.vcenter {
+    height: 3.5em;
+    font-weight: bold;
+    font-size: large;
+}
+
 #equation {
     height: 1em;
+    color: lightgray;
 }
 
 #answer {
-    height: 3em;
+
 }
 
 .buttonRow {
