@@ -151,12 +151,6 @@ function routeOperatorChange (button) {
     changeDisplayTo();
 };
 
-//~~~~~~~~~~Check Display Contents~~~~~~~~~~
-function checkCurrentDisplay() {
-    let dispID = displayAnswerDiv.id;
-    return dispID;
-};
-
 //~~~~~~~~~~Operator Button '='~~~~~~~~~~
 function routeEquals(button) {
     if (!operator) {
