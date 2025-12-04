@@ -6,6 +6,8 @@ let userEntry = '';
 let operatorIsEqualsAndNextOp = '';
 let lastButton = '';
 let bkspOperator = '';
+let decimalActive = true;
+let bkspActive = false;
 
 // ~~~~~~~~~~Direct DOM Effects~~~~~~~~~~
 const calculatorBodyDiv = document.querySelector('div.frame');
@@ -74,27 +76,30 @@ buttons.forEach( (button) => {
 
 function deactivateDecimal () {
 // when '. button' pressed: 
-
-        //decimalActive = false;
-            //have if statement that ignores press if this is false
-        //set class of .button to include disabled 
+    decimalBtn.classList.add('disabled');
+    decimalActive = false;
+    return decimalActive;
 };
 
 function activateDecimal () {
-//reverse deactivation when:
+    decimalBtn.classList.remove('disabled');
+    decimalActive = true;
+    return decimalActive;
+    //activate when:
         //userEntry is cleared/recorded
         //decimal is BKSP away!*** when BKSP runs, check if sliced off item is '.'
 };
 
 function deactivateBksp () {
-        // set BKSP class to disabled,
-        // set bkspActive = flase
-            //have if statement that ignores press if this is false
+    bkspBtn.classList.add('disabled');
+    bkspActive = false;
+    return bkspActive;
 };
 
 function activateBksp () {
-        // set bkspActive = true
-        // remove BKSP class disabled
+    bkspBtn.classList.remove('disabled');
+    bkspActive = true;
+    return bkspActive;
 };
 
 function directButtonValues(e) {
@@ -329,6 +334,8 @@ function clearAll() {
     changeDisplayTo();
     lastButton = '';
     bkspOperator = '';
+    decimalActive = true;
+    bkspActive = false;
     logCurrentStateOfVars ('clearAll')
 }
 
