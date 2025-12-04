@@ -19,7 +19,7 @@ const displayAnswerContainer = document.querySelector('.display.answer')
 function changeDisplayTo(idName='empty',value='') {
     //idName values should be one of: empty, answer, userEntry
     displayAnswerDiv.id = idName;
-    if (idName === 'userEntry') {
+    if (idName === 'userEntry' || idName === 'empty' || value === '') {
         displayAnswerDiv.textContent = value;
     } else {
         displayAnswerDiv.textContent = roundNumbers( value, 2) ;
@@ -161,7 +161,6 @@ function routeOperatorByStage(button) {
 
 function routeOperatorEquals(button) {
     calcEquation();
-    updateEquation();
     operator = button;
     equation += ` = ${answer} ${operator}`;
     numbers = [answer];
