@@ -162,7 +162,7 @@ function routeOperatorByStage(button) {
 function routeOperatorEquals(button) {
     calcEquation();
     operator = button;
-    equation += ` = ${answer} ${operator}`;
+    equation += ` = ${roundNumbers( answer, 2 ) } ${operator}`;
     numbers = [answer];
     operatorIsEqualsAndNextOp = '';
     changeDisplayTo('answer', calcEquation.answer);
