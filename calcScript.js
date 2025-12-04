@@ -26,8 +26,8 @@ function changeDisplayTo(idName='empty',value='') {
 function updateEquation (button = '') {
         logCurrentStateOfVars ('PRE-updateEquasion')
     if (operator) {
-        if (numbers[0]) { equasionNum1 = numbers[0] } else { equasionNum1 = 0 };
-        if (numbers[1]) { equasionNum2 = numbers[1] } else { equasionNum2 = '' };
+        if (numbers.length >= 1 ) { equasionNum1 = numbers[0] } else { equasionNum1 = 0 };
+        if (numbers.length === 2) { equasionNum2 = numbers[1] } else { equasionNum2 = '' };
         equation = equasionNum1 + ' ' + operator + ' ' + equasionNum2;
         return equation; 
     } else if (button === '=') {
@@ -170,10 +170,13 @@ function routeEquals(button) {
             answer = numbers[0]; 
             updateEquation(button);
             operator = '';
+            userEntry = '';
+            changeDisplayTo('answer', answer);
         };
         if (numbers.length === 2) {
             calcEquation();
             operator = '';
+            userEntry = '';
             changeDisplayTo('answer', answer); //parameters answer?
         };
     }
