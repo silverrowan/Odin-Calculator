@@ -5,6 +5,7 @@ let answer = '';
 let userEntry = '';
 let operatorIsEqualsAndNextOp = '';
 let lastButton = '';
+let bkspOperator = '';
 
 // ~~~~~~~~~~Direct DOM Effects~~~~~~~~~~
 const calculatorBodyDiv = document.querySelector('div.frame');
@@ -116,10 +117,14 @@ function recordNumber(source) {
                 numbers.push(0);
             break;
             case 'userEntry' : 
-                if (operator && source === 'operator') { 
-                    operatorIsEqualsAndNextOp = true;
+                if (bkspOperator === true) { 
+                    numbers = [userEntry] 
+                } else {
+                    if (operator && source === 'operator') { 
+                        operatorIsEqualsAndNextOp = true;
+                    };
+                    numbers.push(userEntry);
                 };
-                numbers.push(userEntry);
             break;
             case 'answer' :
                 numbers = [answer];
@@ -216,6 +221,7 @@ function routeBksp(button) {
         return;
     } else if ( lastButton = 'operator' ) {
         operator = '';
+        bkspOperator = true;
         updateEquation(button);
         changeDisplayTo();
     } else {
@@ -290,6 +296,7 @@ function clearAll() {
     operatorIsEqualsAndNextOp = '';
     changeDisplayTo(); //also updates eqn, which will pull newly empty values...except its not. Look into why?
     lastButton = '';
+    bkspOperator = '';
     logCurrentStateOfVars ('clearAll')
 }
 
