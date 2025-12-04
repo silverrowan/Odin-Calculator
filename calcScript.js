@@ -19,7 +19,11 @@ const displayAnswerContainer = document.querySelector('.display.answer')
 function changeDisplayTo(idName='empty',value='') {
     //idName values should be one of: empty, answer, userEntry
     displayAnswerDiv.id = idName;
-    displayAnswerDiv.textContent = roundNumbers( value, 2) ;
+    if (idName === 'userEntry') {
+        displayAnswerDiv.textContent = value;
+    } else {
+        displayAnswerDiv.textContent = roundNumbers( value, 2) ;
+    };
     displayEquationDiv.textContent = equation;
 };
 
