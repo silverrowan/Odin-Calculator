@@ -19,23 +19,33 @@ const displayAnswerContainer = document.querySelector('.display.answer')
 function changeDisplayTo(idName='empty',value='') {
     //idName values should be one of: empty, answer, userEntry
     displayAnswerDiv.id = idName;
-    displayAnswerDiv.textContent = value;
+    displayAnswerDiv.textContent = roundNumbers( value, 2) ;
     displayEquationDiv.textContent = equation;
 };
 
 function updateEquation (button = '') {
         logCurrentStateOfVars ('PRE-updateEquasion')
     if (operator) {
-        if (numbers.length >= 1 ) { equasionNum1 = numbers[0] } else { equasionNum1 = 0 };
-        if (numbers.length === 2) { equasionNum2 = numbers[1] } else { equasionNum2 = '' };
+        if (numbers.length >= 1 ) { 
+            equasionNum1 = roundNumbers( numbers[0], 2) 
+        } else { equasionNum1 = 0 };
+        if (numbers.length === 2) { 
+            equasionNum2 = roundNumbers( numbers[1], 2) 
+        } else { equasionNum2 = '' };
         equation = equasionNum1 + ' ' + operator + ' ' + equasionNum2;
         return equation; 
     } else if (button === '=') {
-        if (numbers[0]) { equasionNum1 = numbers[0] } else { equasionNum1 = 0 };
+        if (numbers[0]) { equasionNum1 = roundNumbers( numbers[0], 2) } else { equasionNum1 = 0 };
         equation = equasionNum1 + ' =';
         return equation; 
     } else { return '' ; };
 };
+
+function roundNumbers(num, decimalPlaces) { 
+    //note: only intended for display of answers, unrounded numbers to be retained in numbers variable
+    let roundedNumber = Math.round(num * 10 ** decimalPlaces) / 10 ** decimalPlaces;
+    return roundedNumber;
+}
 
 //~~~~~~~~~~Listener & Directing~~~~~~~~~~
 //NOT YET RE-ASSESSED
