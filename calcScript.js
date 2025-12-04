@@ -104,11 +104,6 @@ function directButtonValues(e) {
         case 'CLEAR':
             clearAll();
         break;
-        case '.': 
-            deactivateDecimal();
-            displayNumberPress(userButton);
-            lastButton = 'number';
-        break;
         case 'BKSP': 
             routeBksp(userButton);
         break;
@@ -133,6 +128,8 @@ function directButtonValues(e) {
             routeEquals(userButton);
             lastButton = '=';
         break;
+        case '.': 
+            deactivateDecimal();
         default : //any number button pressed
             displayNumberPress(userButton);
             lastButton = 'number';
