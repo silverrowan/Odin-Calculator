@@ -28,21 +28,21 @@ function changeDisplayTo(idName='empty',value='') {
 };
 
 function updateEquation (button = '') {
-        logCurrentStateOfVars ('PRE-updateEquasion')
+        logCurrentStateOfVars ('PRE-updateEquation')
     if (operator) {
         if (numbers.length >= 1 ) { 
-            equasionNum1 = roundNumbers( numbers[0], 2) 
-        } else { equasionNum1 = 0 };
+            equationNum1 = roundNumbers( numbers[0], 2) 
+        } else { equationNum1 = 0 };
         if (numbers.length === 2) { 
-            equasionNum2 = roundNumbers( numbers[1], 2) 
-        } else { equasionNum2 = '' };
-        equation = equasionNum1 + ' ' + operator + ' ' + equasionNum2;
+            equationNum2 = roundNumbers( numbers[1], 2) 
+        } else { equationNum2 = '' };
+        equation = equationNum1 + ' ' + operator + ' ' + equationNum2;
         return equation; 
     } else if (button === '=') {
         if (numbers.length >= 1) { 
-            equasionNum1 = roundNumbers( numbers[0], 2) 
-        } else { equasionNum1 = 0 };
-        equation = equasionNum1 + ' =';
+            equationNum1 = roundNumbers( numbers[0], 2) 
+        } else { equationNum1 = 0 };
+        equation = equationNum1 + ' =';
         return equation; 
     } else { return '' ; };
 };
