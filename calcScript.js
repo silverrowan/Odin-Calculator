@@ -46,8 +46,8 @@ function updateEquation (button = '') {
         return equation; 
     } else if (button === 'BKSP') {
         if (numbers.length >= 1 ) { 
-            equasionNum1 = roundNumbers( numbers[0], 2);
-            equation = equasionNum1 + ' __';
+            equationNum1 = roundNumbers( numbers[0], 2);
+            equation = equationNum1 + ' __';
             return equation; 
         } else { return '' };
     } else { return '' ; };
