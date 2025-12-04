@@ -19,6 +19,9 @@ const displayAnswerContainer = document.querySelector('.display.answer')
 
 function changeDisplayTo(idName='empty',value='') {
     //idName values should be one of: empty, answer, userEntry
+
+    //if idName = 'empty' then deactivateBksp()
+    //if displayAnswerDiv.id = 'empty' && idName !== 'empty' then activateBksp()
     displayAnswerDiv.id = idName;
     if (idName === 'userEntry' || idName === 'empty' || value === '' || value === 'Impossible' ) {
         displayAnswerDiv.textContent = value;
@@ -61,10 +64,34 @@ function roundNumbers(num, decimalPlaces) {
 }
 
 //~~~~~~~~~~Listener & Directing~~~~~~~~~~
-//NOT YET RE-ASSESSED
 buttons.forEach( (button) => {
     button.addEventListener( "click", (e) => directButtonValues(e) );
 });
+
+function deactivateDecimal () {
+// when '. button' pressed: 
+        //deactivate listener on '. button' (temporarily)
+        //decimalListenerActive = false;
+        //set class of .button to include disabled 
+};
+
+function activateDecimal () {
+//reverse deactivation when:
+        //userEntry is cleared/recorded
+        //decimal is BKSP away!*** when BKSP runs, check if sliced off item is '.'
+};
+
+function deactivateBksp () {
+        // set BKSP class to disabled,
+        // disable listener on BKSP
+        // set bkspListenerActive = flase 
+};
+
+function activateBksp () {
+        // reactivate listener on BKSP
+        // set bkspListenerActive = true
+        // remove BKSP class disabled
+};
 
 function directButtonValues(e) {
     let userButton = e.target.textContent;
@@ -73,7 +100,11 @@ function directButtonValues(e) {
         case 'CLEAR':
             clearAll();
         break;
-        case '.': break;
+        case '.': 
+            deactivateDecimal();
+            displayNumberPress(userButton);
+            lastButton = 'number';
+        break;
         case 'BKSP': 
             routeBksp(userButton);
         break;
@@ -202,8 +233,8 @@ function routeEquals(button) {
             userEntry = '';
             changeDisplayTo('answer', answer); //parameters answer?
         };
-    }
-}
+    };
+};
 
 //~~~~~~~~~~Number Check~~~~~~~~~~
 function checkNumCount() {
@@ -294,7 +325,7 @@ function clearAll() {
     userEntry = '';
     equation = '';
     operatorIsEqualsAndNextOp = '';
-    changeDisplayTo(); //also updates eqn, which will pull newly empty values...except its not. Look into why?
+    changeDisplayTo();
     lastButton = '';
     bkspOperator = '';
     logCurrentStateOfVars ('clearAll')
