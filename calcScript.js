@@ -33,24 +33,25 @@ function changeDisplayTo(idName='empty',value='') {
 
 function updateEquation (button = '') {
         logCurrentStateOfVars ('PRE-updateEquation')
+    let showDecimalPlaces = 2;
     if (operator) {
         if (numbers.length >= 1 ) { 
-            equationNum1 = roundNumbers( numbers[0], 2) 
+            equationNum1 = roundNumbers( numbers[0], showDecimalPlaces) 
         } else { equationNum1 = 0 };
         if (numbers.length === 2) { 
-            equationNum2 = roundNumbers( numbers[1], 2) 
+            equationNum2 = roundNumbers( numbers[1], showDecimalPlaces) 
         } else { equationNum2 = '' };
         equation = equationNum1 + ' ' + operator + ' ' + equationNum2;
         return equation; 
     } else if (button === '=') {
         if (numbers.length >= 1) { 
-            equationNum1 = roundNumbers( numbers[0], 2) 
+            equationNum1 = roundNumbers( numbers[0], showDecimalPlaces) 
         } else { equationNum1 = 0 };
         equation = equationNum1 + ' =';
         return equation; 
     } else if (button === 'BKSP') {
         if (numbers.length >= 1 ) { 
-            equationNum1 = roundNumbers( numbers[0], 2);
+            equationNum1 = roundNumbers( numbers[0], showDecimalPlaces);
             equation = equationNum1 + ' __';
             return equation; 
         } else { return '' };
@@ -59,7 +60,9 @@ function updateEquation (button = '') {
 
 function roundNumbers(num, decimalPlaces) { 
     //note: only intended for display of answers, unrounded numbers to be retained in numbers variable
-    let roundedNumber = Math.round(num * 10 ** decimalPlaces) / 10 ** decimalPlaces;
+    let numSign = Math.sign(num);
+    let absNum = Math.abs(num);
+    let roundedNumber = numSign * ( Math.round(absNum * 10 ** decimalPlaces) / 10 ** decimalPlaces );
     return roundedNumber;
 }
 
