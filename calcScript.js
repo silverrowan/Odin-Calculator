@@ -39,7 +39,9 @@ function updateEquation (button = '') {
         equation = equasionNum1 + ' ' + operator + ' ' + equasionNum2;
         return equation; 
     } else if (button === '=') {
-        if (numbers[0]) { equasionNum1 = roundNumbers( numbers[0], 2) } else { equasionNum1 = 0 };
+        if (numbers.length >= 1) { 
+            equasionNum1 = roundNumbers( numbers[0], 2) 
+        } else { equasionNum1 = 0 };
         equation = equasionNum1 + ' =';
         return equation; 
     } else { return '' ; };
