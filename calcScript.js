@@ -38,7 +38,6 @@ function changeDisplayTo(idName='empty',value='') {
 };
 
 function updateEquation (button = '') {
-        logCurrentStateOfVars ('PRE-updateEquation')
     let showDecimalPlaces = 2;
     if (operator) {
         if (numbers.length >= 1 ) { 
@@ -80,7 +79,6 @@ buttons.forEach( (button) => {
 });
 
 function deactivateDecimal () {
-// when '. button' pressed: 
     decimalBtn.className = `${decimalClass} disabled`;
     decimalActive = false;
     return decimalActive;
@@ -90,9 +88,6 @@ function activateDecimal () {
     decimalBtn.className = `${decimalClass}`;
     decimalActive = true;
     return decimalActive;
-    //activate when:
-        //userEntry is cleared/recorded
-        //decimal is BKSP away!*** when BKSP runs, check if sliced off item is '.'
 };
 
 function deactivateBksp () {
@@ -110,9 +105,6 @@ function activateBksp () {
 function directButtonValues(e, source) {
     let userButton;
     if (source === 'mouse') { userButton = e.target.textContent; } else { userButton = e.key; };
-   
-    // let isNumber = userButton.test(/[0-9]+/); was unable to get RegEx to work in JS.
-    logCurrentStateOfVars ('PRE-event routing')
     switch (userButton) {
         case 'CLEAR':
             clearAll();
@@ -208,7 +200,6 @@ function displayNumberPress(button) {
             userEntry = 'ERROR: displayID invalid'; 
     };
     changeDisplayTo(`userEntry`, userEntry);    
-    logCurrentStateOfVars('displayNumberPressFinish')
 };
 
 //~~~~~~~~~~Operation Buttons + - / x~~~~~~~~~~
@@ -224,7 +215,6 @@ function routeOperatorByStage(button) {
         userEntry = '';
     };
     activateDecimal();
-    logCurrentStateOfVars ('Show Math Result')
 };
 
 function routeOperatorEquals(button) {
@@ -238,7 +228,6 @@ function routeOperatorEquals(button) {
     };  
     operatorIsEqualsAndNextOp = '';
     changeDisplayTo('answer', calcAnswer.answer);
-    logCurrentStateOfVars ('Show Math Result')
 };
 
 function routeOperatorChange (button) {
@@ -280,7 +269,6 @@ function checkNumCount() {
     while ( numbers.length > 2 ) {
         numbers.shift();
     };
-    logCurrentStateOfVars ("remove old numbers")
 };
 
 //~~~~~~~~~~Backspace~~~~~~~~~~
@@ -306,7 +294,6 @@ function routeBksp(button) {
 function checkReady() {
     let ready;
     (numbers.length === 2 && operator) ? ready = 'true' : ready = 'false' ;
-    logCurrentStateOfVars ('checked if ready for Math')
     return ready;
 }
 
@@ -342,6 +329,9 @@ function calcEquation() {
     return calcReply;
 };
 
+//honestly I would have just put these directly 
+// into the switch statement above, but 
+// instructions did explicitly say to split them out.
 function addNumbers() {
     return answer = +numbers[0] + +numbers[1];
 };
@@ -372,14 +362,4 @@ function clearAll() {
     bkspOperator = '';
     deactivateBksp();
     activateDecimal();
-    logCurrentStateOfVars ('clearAll')
-}
-
-//~~~~~~~~~~Log all variables to Console~~~~~~~~~~
-function logCurrentStateOfVars (header) {
-                console.group( header );
-                console.log(`nums: `+ numbers+' operator: '+operator+' equation:'+equation);
-                console.log(`ans:${answer}, userEntry: ${userEntry} dispID:${displayAnswerDiv.id}`);
-                console.log(`lastButton: ${lastButton} activeDisplay: ${displayAnswerDiv.id}`);
-                console.groupEnd();
-}
+};

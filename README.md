@@ -1,6 +1,38 @@
-# Odin-Calculator
+# Calculator
+A simple 2 number calculator using Html, Css & JavaScript.
 
-~~~Assignment~~~
+Computes only 2 numbers at a time, it ignores order of operations!
+If 1+2x3 is entered it will calculate 1+2 BEFORE multiplying the 
+answer by 3. (it also shows this in the equation, to make it clear 
+that is what is happening)
+
+## Functions:
+    -Main display shows your entry and returns the results of the calculation.
+        - a second display above the main one shows the equation used.
+    - math functions: +, -, x, /
+    - single and multi-digit numbers
+    - button & keyboard entry for all options (except for clear, as theres no 
+    direct keyboard equivalent)
+    - clear - resets everything to a blank slate
+    - backspace removes the last item you entered, including operators.
+    - decimal entry
+    - rounding numbers with long decimals (to 2 decimal places)
+        - rounding of negative numbers via mathmatically correct method, 
+        instead of the JavaScript method. (0.5 rounds away from 0, not 
+        towards infinity.)
+    - if no number is entered prior to an operator, the calculator will 
+    use a default value of 0. This will be shown in the equation.
+    - The backspace and decimal buttons will be deactivated automatically if 
+    thier use would return an invalid response. They are visibly greyed and 
+    faded when deactivated.
+    - when the user enters two numbers and an operator and follows with another
+    operator instead of 0, the calculator will display the formula with the answer
+    of the first portion calculated and second operator. The Main display will be 
+    empty, to elimiate confusion about what exactly is meant by the display. eg. 
+    1+2+ (as entered by user) would appear as 1+2=3+ in the equation bar.
+    - can be tested on the project page here: https://silverrowan.github.io/Odin-Calculator/
+
+## The Odin Project Assignment
 Create a Calculator w all basic math functions
 
 Operations will be a number, an operator, and another number (so 2 numbers)
@@ -21,7 +53,7 @@ Create functions that populate the display when you click the digit buttons.
 Make it work!
 Make the display update w the result of the operation
 
-~~~Watch out for~~~
+### Watch out for
 - should only evaluate only one pair of numbers at a time.
     so, if user enters 12 + 7 - 2, the calculator shoudl complete 12+7 THEN do total-2 
     (so, ignore order of operations)
@@ -33,7 +65,7 @@ Make the display update w the result of the operation
     eg. enter 2 + +, should NOT evaluate (yet), and jsut use the last entered operator
 - when the result is displayed (w =) pressing a new digit should clear the result & start a new calculation instead of appending the digit to the existing result.
 
-~~~Extra Credit~~~
+### Extra
     - add a '.' button and let users input decimals - but only allow one; disable it if theres already one in the display
     - add a backspace button
     - add keyboard support
