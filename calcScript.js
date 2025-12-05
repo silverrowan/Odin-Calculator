@@ -73,8 +73,10 @@ function roundNumbers(num, decimalPlaces) {
 }
 
 //~~~~~~~~~~Listener & Directing~~~~~~~~~~
+document.addEventListener( "keyup", (e) => directButtonValues(e, 'keyboard') );
+
 buttons.forEach( (button) => {
-    button.addEventListener( "click", (e) => directButtonValues(e) );
+    button.addEventListener( "click", (e) => directButtonValues(e, 'mouse') );
 });
 
 function deactivateDecimal () {
@@ -105,8 +107,10 @@ function activateBksp () {
     return bkspActive;
 };
 
-function directButtonValues(e) {
-    let userButton = e.target.textContent;
+function directButtonValues(e, source) {
+    let userButton;
+    if (source === 'mouse') { userButton = e.target.textContent; } else { userButton = e.key; };
+   
     // let isNumber = userButton.test(/[0-9]+/); was unable to get RegEx to work in JS.
     logCurrentStateOfVars ('PRE-event routing')
     switch (userButton) {
@@ -114,6 +118,7 @@ function directButtonValues(e) {
             clearAll();
         break;
         case 'BKSP': 
+        case 'Backspace' : 
             if (bkspActive = true) {routeBksp(userButton);};
         break;
         case 'x':
@@ -133,12 +138,14 @@ function directButtonValues(e) {
             };
         lastButton = 'operator';
         break;
-        case '=':
+        case '=' :
+        case 'Enter' : 
             recordNumber('equals');
             routeEquals(userButton);
             lastButton = '=';
         break;
         case '.': 
+        case 'Period' :
             if ( decimalActive === false) {break;}
             deactivateDecimal();
         case '0':
@@ -192,7 +199,7 @@ function displayNumberPress(button) {
         case 'empty' : 
         case 'answer':
             userEntry = button;
-            activateDecimal ()
+            if ( lastButton !=='' ) { activateDecimal () };
         break;
         case 'userEntry' :
             userEntry += button;
@@ -215,8 +222,8 @@ function routeOperatorByStage(button) {
     } else {
         changeDisplayTo('empty', calcEquation.answer);
         userEntry = '';
-        activateDecimal ();
     };
+    activateDecimal();
     logCurrentStateOfVars ('Show Math Result')
 };
 
