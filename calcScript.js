@@ -19,12 +19,15 @@ const displayAnswerContainer = document.querySelector('.display.answer')
     calculatorBodyDiv.prepend(displayAnswerContainer);
     calculatorBodyDiv.prepend(displayEquationDiv);
 const decimalBtn = calculatorBodyDiv.querySelector('button#nDot');
-const bkspBtn = calculatorBodyDiv.querySelector('button#bksp')
+    let decimalClass = decimalBtn.getAttribute('class');
+const bkspBtn = calculatorBodyDiv.querySelector('button#bksp');
+    let bkspClass = bkspBtn.getAttribute('class');
+    deactivateBksp();
 
 function changeDisplayTo(idName='empty',value='') {
     //idName values should be one of: empty, answer, userEntry
     if ( idName === 'empty' ) { deactivateBksp() };
-    if ( displayAnswerDiv.id = 'empty' && idName !== 'empty' ) { activateBksp() };
+    if ( idName !== 'empty' || operator !== '' ) { activateBksp() };
     displayAnswerDiv.id = idName;
     if (idName === 'userEntry' || idName === 'empty' || value === '' || value === 'Impossible' ) {
         displayAnswerDiv.textContent = value;
@@ -76,13 +79,13 @@ buttons.forEach( (button) => {
 
 function deactivateDecimal () {
 // when '. button' pressed: 
-    decimalBtn.classList.add('disabled');
+    decimalBtn.className = `${decimalClass} disabled`;
     decimalActive = false;
     return decimalActive;
 };
 
 function activateDecimal () {
-    decimalBtn.classList.remove('disabled');
+    decimalBtn.className = `${decimalClass}`;
     decimalActive = true;
     return decimalActive;
     //activate when:
@@ -91,13 +94,13 @@ function activateDecimal () {
 };
 
 function deactivateBksp () {
-    bkspBtn.classList.add('disabled');
+    bkspBtn.className = `${bkspClass} disabled`;
     bkspActive = false;
     return bkspActive;
 };
 
 function activateBksp () {
-    bkspBtn.classList.remove('disabled');
+    bkspBtn.className = `${bkspClass}`;
     bkspActive = true;
     return bkspActive;
 };
@@ -110,7 +113,7 @@ function directButtonValues(e) {
             clearAll();
         break;
         case 'BKSP': 
-            if (bkspActive = true) {routeBksp(userButton);}
+            if (bkspActive = true) {routeBksp(userButton);};
         break;
         case 'x':
         case '+':
@@ -134,7 +137,7 @@ function directButtonValues(e) {
             lastButton = '=';
         break;
         case '.': 
-            if ( decimalActive = false) {break;}
+            if ( decimalActive === false) {break;}
             deactivateDecimal();
         default : //any number button pressed
             displayNumberPress(userButton);
@@ -149,7 +152,6 @@ function recordNumber(source) {
     } else {
         switch (displayAnswerDiv.id) {
             case 'Impossible' : 
-
             break;
             case 'empty' :
                 numbers.push(0);
@@ -176,6 +178,7 @@ function displayNumberPress(button) {
         case 'empty' : 
         case 'answer':
             userEntry = button;
+            activateDecimal ()
         break;
         case 'userEntry' :
             userEntry += button;
@@ -198,6 +201,7 @@ function routeOperatorByStage(button) {
     } else {
         changeDisplayTo('empty', calcEquation.answer);
         userEntry = '';
+        activateDecimal ();
     };
     logCurrentStateOfVars ('Show Math Result')
 };
@@ -226,18 +230,21 @@ function routeEquals(button) {
         updateEquation(button);
         changeDisplayTo('answer', answer)
         userEntry = '';
+        activateDecimal ();
     } else {
         if (numbers.length === 1) { 
             answer = numbers[0]; 
             updateEquation(button);
             operator = '';
             userEntry = '';
+            activateDecimal ();
             changeDisplayTo('answer', answer);
         };
         if (numbers.length === 2) {
             calcEquation();
             operator = '';
             userEntry = '';
+            activateDecimal ();
             changeDisplayTo('answer', answer); //parameters answer?
         };
     };
@@ -255,6 +262,8 @@ function checkNumCount() {
 function routeBksp(button) {
     if ( displayAnswerDiv.id === 'userEntry' ) {
         userEntry = displayAnswerDiv.textContent.slice(0,-1);
+        sliced = displayAnswerDiv.textContent.slice(-1);
+        if (sliced === '.') {activateDecimal()};
         changeDisplayTo('userEntry', userEntry);
         return;
     } else if ( lastButton = 'operator' ) {
@@ -335,8 +344,8 @@ function clearAll() {
     changeDisplayTo();
     lastButton = '';
     bkspOperator = '';
-    decimalActive = true;
-    bkspActive = false;
+    deactivateBksp();
+    activateDecimal();
     logCurrentStateOfVars ('clearAll')
 }
 
