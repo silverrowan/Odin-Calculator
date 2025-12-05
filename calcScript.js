@@ -214,13 +214,13 @@ function displayNumberPress(button) {
 //~~~~~~~~~~Operation Buttons + - / x~~~~~~~~~~
 function routeOperatorByStage(button) {
     operator = button;
-    calcEquation();
+    let calcAnswer = calcEquation();;
     updateEquation();
-    if ( calcEquation.calcSuccess === true ) {
-        changeDisplayTo('answer', calcEquation.answer);
+    if ( calcAnswer.calcSuccess === true ) {
+        changeDisplayTo('answer', calcAnswer.answer);
         operator = '';
     } else {
-        changeDisplayTo('empty', calcEquation.answer);
+        changeDisplayTo('empty', calcAnswer.answer);
         userEntry = '';
     };
     activateDecimal();
@@ -228,12 +228,16 @@ function routeOperatorByStage(button) {
 };
 
 function routeOperatorEquals(button) {
-    calcEquation();
+    let calcAnswer = calcEquation();
     operator = button;
-    equation += ` = ${roundNumbers( answer, 2 ) } ${operator}`;
-    numbers = [answer];
+    if (calcAnswer.answer === 'Impossible') { 
+        numbers = [];
+    } else { 
+        equation += ` = ${roundNumbers( answer, 2 ) } ${operator}`;
+        numbers = [answer];
+    };  
     operatorIsEqualsAndNextOp = '';
-    changeDisplayTo('answer', calcEquation.answer);
+    changeDisplayTo('answer', calcAnswer.answer);
     logCurrentStateOfVars ('Show Math Result')
 };
 
@@ -262,11 +266,11 @@ function routeEquals(button) {
             changeDisplayTo('answer', answer);
         };
         if (numbers.length === 2) {
-            calcEquation();
+            let calcAnswer = calcEquation();
             operator = '';
             userEntry = '';
             activateDecimal ();
-            changeDisplayTo('answer', answer); //parameters answer?
+            changeDisplayTo('answer', calcAnswer.answer); //parameters answer?
         };
     };
 };
@@ -322,6 +326,7 @@ function calcEquation() {
                 answer = subtractNumbers();
             break;
             case 'x' :
+            case '*' :
                 answer = multiplyNumbers();
             break;
             case '/' :
