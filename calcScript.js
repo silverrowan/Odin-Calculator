@@ -107,6 +107,7 @@ function activateBksp () {
 
 function directButtonValues(e) {
     let userButton = e.target.textContent;
+    // let isNumber = userButton.test(/[0-9]+/); was unable to get RegEx to work in JS.
     logCurrentStateOfVars ('PRE-event routing')
     switch (userButton) {
         case 'CLEAR':
@@ -117,6 +118,7 @@ function directButtonValues(e) {
         break;
         case 'x':
         case '+':
+        case '*':
         case '-':
         case '/':
             if (lastButton === 'operator') {
@@ -139,9 +141,21 @@ function directButtonValues(e) {
         case '.': 
             if ( decimalActive === false) {break;}
             deactivateDecimal();
-        default : //any number button pressed
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
             displayNumberPress(userButton);
             lastButton = 'number';
+            break;
+        default : //any number button pressed
+            break
     };
 };
 
